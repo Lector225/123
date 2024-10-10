@@ -3,15 +3,17 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-	public event Action<Character> OnCharacterDeath; 
-	
-	
+	public event Action<Character> OnCharacterDeath;
+
+	[SerializeField] protected CharacterType characterType;
 	[SerializeField] protected CharacterData characterData;
-	
-	
+
+	public CharacterType CharacterType => characterType;
 	public IMovementComponent MovementComponent { get; protected set; }
 	public IHealthComponent HealthComponent { get; protected set; }
 	public IAttackComponent AttackComponent { get; protected set; }
+	
+	protected abstract Character TargetTransform { get; }
 
 
 	public virtual void Initialize()

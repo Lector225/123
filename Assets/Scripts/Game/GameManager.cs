@@ -1,0 +1,123 @@
+using Data;
+using UnityEngine;
+using Random = UnityEngine.Random;
+
+public class GameManager : MonoBehaviour
+{
+    [SerializeField] private CharacterFactory _characterFactory;
+
+
+    [Space, SerializeField]
+    private GameData _gameData;
+
+    
+    public static GameManager Instance { get; private set; }
+
+    public CharacterFactory CharacterFactory => _characterFactory;
+    
+    public ScoreManager ScoreManager { get; private set; }
+
+
+    private bool _isGameActive = false;
+    private float _gameTimeSec = 0;
+    private float _spawnEnemyTimeSec = 0;
+    
+
+    public void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+            Initialize();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void GameStart()
+    {
+        var player = CharacterFactory.CreateCharacter(CharacterType.DefaultPlayer);
+        player.transform.position = Vector3.zero;
+        player.gameObject.SetActive(true);
+        
+        player.OnCharacterDeath += CharacterDeathHandler;
+        player.Initialize();
+        
+        _gameTimeSec = 0;
+        _isGameActive = true;
+    }
+
+    private void CharacterDeathHandler(Character character)
+    {
+        CharacterFactory.ReturnToPool(character);
+        character.gameObject.SetActive(false);
+        
+        switch (character.CharacterType)
+        {
+            case CharacterType.DefaultPlayer:
+                Debug.LogError("GameOver!");
+                Debug.LogError("Score = " + ScoreManager.Score);
+                Debug.LogError("ScoreMax = " + ScoreManager.ScoreMax);
+                _isGameActive = false;
+                break;
+            
+            case CharacterType.DefaultEnemy:
+                ScoreManager.CharacterDeathHandler(character);
+                break;
+        }
+        
+        character.OnCharacterDeath -= CharacterDeathHandler;
+    }
+
+    private void SpawnEnemy()
+    {
+        var character = CharacterFactory.CreateCharacter(CharacterType.DefaultEnemy);
+
+        float posX = CharacterFactory.PlayerCharacter.transform.position.x + GetRandomCoordOffset();
+        float posZ = CharacterFactory.PlayerCharacter.transform.position.z + GetRandomCoordOffset();
+        Vector3 spawnPoint = new Vector3(posX, 0, posZ);
+        character.transform.position = spawnPoint;
+        
+        character.OnCharacterDeath += CharacterDeathHandler;
+        character.Initialize();
+
+        
+        float GetRandomCoordOffset()
+        {
+            bool isPlus = Random.Range(0, 1) > 0;
+            float randomOffset = Random.Range(_gameData.MinEnemySpawnDistance, _gameData.MaxEnemySpawnDistance);
+            return isPlus
+                ? randomOffset
+                : -randomOffset;
+        }
+    }
+
+    private void Initialize()
+    {
+        ScoreManager = new ScoreManager();
+    }
+
+    private void Update()
+    {
+        if (!_isGameActive)
+            return;
+
+        _gameTimeSec += Time.deltaTime;
+        _spawnEnemyTimeSec += Time.deltaTime;
+        
+        if (_spawnEnemyTimeSec >= _gameData.SpawnEnemyTimeSec)
+        {
+            SpawnEnemy();
+            _spawnEnemyTimeSec = 0;
+        }
+        
+        if (_gameTimeSec >= _gameData.GameTimeSecondsMax)
+        {
+            Debug.Log("Game Over! Time's up!");
+            _isGameActive = false;
+        }
+    }
+}
