@@ -1,19 +1,24 @@
 using Data;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private CharacterFactory _characterFactory;
-
-
+    [SerializeField] private CharacterFactory characterFactory;
+    [SerializeField] private WindowsService windowsService;
+    
     [Space, SerializeField]
     private GameData _gameData;
 
     
     public static GameManager Instance { get; private set; }
 
-    public CharacterFactory CharacterFactory => _characterFactory;
+    public CharacterFactory CharacterFactory => 
+        characterFactory;
+    
+    public WindowsService WindowsService => 
+        windowsService;
     
     public ScoreManager ScoreManager { get; private set; }
 
@@ -98,6 +103,7 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         ScoreManager = new ScoreManager();
+        windowsService.Initialize();
     }
 
     private void Update()
