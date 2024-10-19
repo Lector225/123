@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerCharacter : Character
 {
-    protected override Character TargetTransform
+    public override Character TargetTransform
     {
         get
         {
@@ -12,6 +12,9 @@ public class PlayerCharacter : Character
             foreach (var activeCharacter in activePool)
             {
                 if (activeCharacter.CharacterType == CharacterType.DefaultPlayer)
+                    continue;
+                
+                if (!activeCharacter.HealthComponent.IsAlive)
                     continue;
                 
                 float distance = Vector3.Distance(activeCharacter.transform.position, transform.position);
@@ -25,15 +28,21 @@ public class PlayerCharacter : Character
             return target;
         }
     }
+    
 
     public override void Initialize()
     {
-        MovementComponent = new CharacterControllerMovementComponent();
-        MovementComponent.Initialize(characterData);
+        base.Initialize();
+
+        AttackComponent = new WeaponAttackComponent();
+        AttackComponent.Initialize(this);
     }
 
     protected  override void Update()
     {
+        if (!HealthComponent.IsAlive)
+            return;
+
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
         Vector3 moveDirection = new Vector3(x, 0, z).normalized;
@@ -45,5 +54,8 @@ public class PlayerCharacter : Character
         Vector3 directionToTarget = target.transform.position - characterData.CharacterTransform.position;
         directionToTarget.Normalize();
         MovementComponent.Rotation(directionToTarget);
+        
+        AttackComponent.OnUpdate();
+        AttackComponent.MakeAttack();
     }
 }

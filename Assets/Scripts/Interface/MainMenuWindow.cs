@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +30,7 @@ public class MainMenuWindow : Window
     private void StartGameHandler()
     {
         GameManager.Instance.GameStart();
+        GameManager.Instance.WindowsService.ShowWindow<GameplayWindow>(true);
         Hide(false);
     }
 

@@ -2,43 +2,47 @@ using UnityEngine;
 
 public class EnemyHandedAttackComponent : IAttackComponent
 {
-    private const float ATTACK_RANGE = 0.8f;
     private const float ATTACK_DURATION_MAX = 1f;
-    
-    
-    private CharacterData _characterData;
-    private Character _playerCharacter;
 
+    
+    private Character thisCharacter;
+    private CharacterData _characterData;
     private float _attackDuration;
 
+    
     public float Damage => _characterData.baseDamage;
-    public float AttackRange => ATTACK_RANGE;
-
-
-    public void Initialize(CharacterData characterData)
-    {
-        _characterData = characterData;
-    }
+    public float AttackRange => 2.6f;
+    
 
     public void MakeAttack()
     {
-        if (_playerCharacter == null || !_playerCharacter.HealthComponent.IsAlive)
+        if (thisCharacter.TargetTransform == null
+            || !thisCharacter.TargetTransform.HealthComponent.IsAlive
+            || _attackDuration > 0)
             return;
-
-        if (_attackDuration > 0)
-        {
-            _attackDuration -= Time.deltaTime;
-            return;
-        }
-
+        
         float targetDistance = Vector3.Distance(
-            _playerCharacter.MovementComponent.Position,
+            thisCharacter.TargetTransform.MovementComponent.Position,
             _characterData.CharacterTransform.position);
         
         if (targetDistance > AttackRange)
             return;
         
-        _playerCharacter.MakeDamage(Damage);
+        thisCharacter.TargetTransform.HealthComponent.Health -= Damage;
         _attackDuration = ATTACK_DURATION_MAX;
+    }
+
+    public void OnUpdate()
+    {
+        if (_attackDuration > 0)
+        {
+            _attackDuration -= Time.deltaTime;
+        }
+    }
+
+    public void Initialize(Character character)
+    {
+        thisCharacter = character;
+        _characterData = character.CharacterData;
     }
 }

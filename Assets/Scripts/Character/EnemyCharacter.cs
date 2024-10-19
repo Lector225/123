@@ -7,18 +7,23 @@ public class EnemyCharacter : Character
     [SerializeField] private float targetCheckingDistance = 0.8f;
 
 
-    protected override Character TargetTransform =>
+    public override Character TargetTransform =>
         GameManager.Instance.CharacterFactory.PlayerCharacter;
 
     public override void Initialize()
     {
         base.Initialize();
         AttackComponent = new EnemyHandedAttackComponent();
-        AttackComponent.Initialize(characterData);
+        AttackComponent.Initialize(this);
     }
     
     protected override void Update()
     {
+        if (!HealthComponent.IsAlive)
+            return;
+        
+        AttackComponent.OnUpdate();
+        
         if (TargetTransform == null || !TargetTransform.gameObject.activeSelf)
             return;
         

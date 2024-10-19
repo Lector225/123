@@ -13,9 +13,12 @@ public class WindowsService : MonoBehaviour
         windowsDictionary = new Dictionary<Type, Window>();
         foreach (var window in windows)
         {
-            windowsDictionary.Add(typeof(Window), window);
+            windowsDictionary.Add(window.GetType(), window);
             window.Hide(true);
+            window.Initialize();
         }
+
+        ShowWindow<MainMenuWindow>(true);
     }
 
     public T GetWindow<T>() where T : Window

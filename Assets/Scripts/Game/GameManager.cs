@@ -47,9 +47,9 @@ public class GameManager : MonoBehaviour
         var player = CharacterFactory.CreateCharacter(CharacterType.DefaultPlayer);
         player.transform.position = Vector3.zero;
         player.gameObject.SetActive(true);
-        
-        player.OnCharacterDeath += CharacterDeathHandler;
         player.Initialize();
+        player.HealthComponent.OnCharacterDeath += CharacterDeathHandler;
+        player.gameObject.SetActive(true);
         
         _gameTimeSec = 0;
         _isGameActive = true;
@@ -57,9 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void CharacterDeathHandler(Character character)
     {
-        CharacterFactory.ReturnToPool(character);
-        character.gameObject.SetActive(false);
-        
+        Debug.LogError("character " + character.gameObject.name + " is dead");
         switch (character.CharacterType)
         {
             case CharacterType.DefaultPlayer:
@@ -71,10 +69,14 @@ public class GameManager : MonoBehaviour
             
             case CharacterType.DefaultEnemy:
                 ScoreManager.CharacterDeathHandler(character);
+                Debug.LogError("Score = " + ScoreManager.Score);
                 break;
         }
         
-        character.OnCharacterDeath -= CharacterDeathHandler;
+        CharacterFactory.ReturnToPool(character);
+        character.gameObject.SetActive(false);
+        
+        character.HealthComponent.OnCharacterDeath -= CharacterDeathHandler;
     }
 
     private void SpawnEnemy()
@@ -85,9 +87,9 @@ public class GameManager : MonoBehaviour
         float posZ = CharacterFactory.PlayerCharacter.transform.position.z + GetRandomCoordOffset();
         Vector3 spawnPoint = new Vector3(posX, 0, posZ);
         character.transform.position = spawnPoint;
-        
-        character.OnCharacterDeath += CharacterDeathHandler;
         character.Initialize();
+        character.HealthComponent.OnCharacterDeath += CharacterDeathHandler;
+        character.gameObject.SetActive(true);
 
         
         float GetRandomCoordOffset()

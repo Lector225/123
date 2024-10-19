@@ -180,9 +180,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterTransform: {fileID: 8483885169811628896}
   _characterController: {fileID: 4564887752154817035}
+  _starterWeaponData: {fileID: 11400000, guid: f267fd99fa0def44e89b657ebeacd73e, type: 2}
   speed: 5
-  baseHealth: 0
-  baseDamage: 0
+  baseHealth: 50
+  baseDamage: 1
 --- !u!114 &3693407362433043060
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -75,9 +75,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterTransform: {fileID: 7434617638786560169}
   _characterController: {fileID: 8873309474331393159}
-  speed: 3
-  baseHealth: 0
-  baseDamage: 0
+  _starterWeaponData: {fileID: 0}
+  speed: 2
+  baseHealth: 10
+  baseDamage: 1
 --- !u!114 &1022542539896511744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,10 +91,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c8971520265414799d5f65b6a36ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterType: 0
+  characterType: 1
   characterData: {fileID: 3497359469364547560}
   _aiState: 2
-  targetCheckingDistance: 0.8
+  targetCheckingDistance: 2.5
 --- !u!1 &4818836197406219137
 GameObject:
   m_ObjectHideFlags: 0
