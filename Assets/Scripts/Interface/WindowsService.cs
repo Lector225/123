@@ -11,11 +11,11 @@ public class WindowsService : MonoBehaviour
     public void Initialize()
     {
         windowsDictionary = new Dictionary<Type, Window>();
-        foreach (var window in windows)
+        foreach (Window window in windows)
         {
             windowsDictionary.Add(window.GetType(), window);
             window.Hide(true);
-            window.Initialize();
+            window.Initialize(); 
         }
 
         ShowWindow<MainMenuWindow>(true);

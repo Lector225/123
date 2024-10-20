@@ -22,4 +22,11 @@ public class VictoryWindow : Window
         Hide(true);
         GameManager.Instance.WindowsService.ShowWindow<MainMenuWindow>(false);
     }
+
+    protected override void OpenStart()
+    {
+        base.OpenStart();
+        recordText.text = GameManager.Instance.ScoreManager.Score.ToString();
+        newRecordText.gameObject.SetActive(GameManager.Instance.ScoreManager.IsNewScoreRecord);
+    }
 }

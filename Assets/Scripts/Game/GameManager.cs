@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
     
     public ScoreManager ScoreManager { get; private set; }
 
+    public float GameTimeSeconds => _gameTimeSec;
+    public bool IsGameActive => _isGameActive;
+
 
     private bool _isGameActive = false;
     private float _gameTimeSec = 0;
@@ -50,7 +53,8 @@ public class GameManager : MonoBehaviour
         player.Initialize();
         player.HealthComponent.OnCharacterDeath += CharacterDeathHandler;
         player.gameObject.SetActive(true);
-        
+
+        ScoreManager.StartGame();
         _gameTimeSec = 0;
         _isGameActive = true;
     }
@@ -65,6 +69,9 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("Score = " + ScoreManager.Score);
                 Debug.LogError("ScoreMax = " + ScoreManager.ScoreMax);
                 _isGameActive = false;
+
+                WindowsService.HideWindow<GameplayWindow>(true);
+                WindowsService.ShowWindow<DefeatWindow>(false);
                 break;
             
             case CharacterType.DefaultEnemy:
@@ -125,6 +132,10 @@ public class GameManager : MonoBehaviour
         if (_gameTimeSec >= _gameData.GameTimeSecondsMax)
         {
             Debug.Log("Game Over! Time's up!");
+
+            WindowsService.HideWindow<GameplayWindow>(true);
+            WindowsService.ShowWindow<VictoryWindow>(false);
+
             _isGameActive = false;
         }
     }

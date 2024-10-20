@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,9 @@ public class GameplayWindow : Window
 
         UpdateHealthVisual(player);
         player.HealthComponent.OnCharacterHealthChange += UpdateHealthVisual;
+
+        UpdateScore(GameManager.Instance.ScoreManager.Score);
+        GameManager.Instance.ScoreManager.OnScoreUpdated += UpdateScore;
     }
 
     protected override void CloseStart()
@@ -41,6 +45,7 @@ public class GameplayWindow : Window
             return;
         
         player.HealthComponent.OnCharacterHealthChange -= UpdateHealthVisual;
+        GameManager.Instance.ScoreManager.OnScoreUpdated -= UpdateScore;
     }
 
     private void UpdateHealthVisual(Character character)
@@ -51,5 +56,20 @@ public class GameplayWindow : Window
         healthText.text = health + "/" + healthMax;
         healthSlider.maxValue = healthMax;
         healthSlider.value = health;
+    }
+
+    private void UpdateScore(int scoreCount)
+    {
+        coinsText.text = scoreCount.ToString();
+    }
+
+    private void Update()
+    {
+        float gameSeconds = GameManager.Instance.GameTimeSeconds;
+        int minutes = (int)(gameSeconds / 60);
+        int seconds = (int)(gameSeconds % 60);
+        string zero = "0";
+
+        timerText.text = minutes + ":" + ((seconds < 10) ? zero : "") + seconds;
     }
 }
