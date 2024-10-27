@@ -15,13 +15,8 @@ public class GameplayWindow : Window
     [Space] [SerializeField]
     private TMP_Text timerText;
     [SerializeField]
-    private TMP_Text coinsText;
+    private TMP_Text scoreText;
     
-    
-    public override void Initialize()
-    {
-
-    }
 
     protected override void OpenStart()
     {
@@ -30,11 +25,18 @@ public class GameplayWindow : Window
 
         UpdateHealthVisual(player);
         player.HealthComponent.OnCharacterHealthChange += UpdateHealthVisual;
+
+        ScoreChangeHandler(GameManager.Instance.ScoreManager.Score);
+        GameManager.Instance.ScoreManager.OnScoreChanged += ScoreChangeHandler;
+        
+        UpdateTimer();
     }
 
     protected override void CloseStart()
     {
         base.CloseStart();
+        
+        GameManager.Instance.ScoreManager.OnScoreChanged -= ScoreChangeHandler;
         
         var player = GameManager.Instance.CharacterFactory.PlayerCharacter;
         if (player == null)
@@ -51,5 +53,28 @@ public class GameplayWindow : Window
         healthText.text = health + "/" + healthMax;
         healthSlider.maxValue = healthMax;
         healthSlider.value = health;
+    }
+    
+    private void ScoreChangeHandler(int score)
+    {
+        scoreText.text = score.ToString();
+    }
+    
+    private void UpdateTimer()
+    {
+        var min = (int)(GameManager.Instance.GameTime / 60);
+        var sec = (int)(GameManager.Instance.GameTime % 60);
+        timerText.text = GetTime(min) + ":" + GetTime(sec);
+
+
+        string GetTime(int value)
+        {
+            return (value < 10) ? "0" + value : value.ToString();
+        }
+    }
+    
+    private void Update()
+    {
+        UpdateTimer();
     }
 }

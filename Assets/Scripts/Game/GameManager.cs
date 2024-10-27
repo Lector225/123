@@ -1,12 +1,15 @@
 using Data;
 using UnityEngine;
-using UnityEngine.Serialization;
+using ZombieIo.AudioSystem;
+using ZombieIo.EffectsSystem;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private CharacterFactory characterFactory;
     [SerializeField] private WindowsService windowsService;
+    [SerializeField] private AudioSystemService audioSystemService;
+    [SerializeField] private EffectsFactory effectsFactory;
     
     [Space, SerializeField]
     private GameData _gameData;
@@ -20,7 +23,15 @@ public class GameManager : MonoBehaviour
     public WindowsService WindowsService => 
         windowsService;
     
+    public AudioSystemService AudioSystemService => 
+        audioSystemService;
+    
+    public EffectsFactory EffectsFactory => 
+        effectsFactory;
+    
     public ScoreManager ScoreManager { get; private set; }
+
+    public float GameTime => _gameTimeSec;
 
 
     private bool _isGameActive = false;

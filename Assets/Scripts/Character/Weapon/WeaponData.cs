@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using ZombieIo.EffectsSystem;
 
 public abstract class WeaponData : ScriptableObject
 {
@@ -7,11 +7,14 @@ public abstract class WeaponData : ScriptableObject
     private float weaponDamage;
     [SerializeField]
     private float timeBetweenAttack;
-    [FormerlySerializedAs("attackDistance")] [SerializeField]
+    [SerializeField]
     private float attackRange;
+    [SerializeField]
+    private EffectType projectileTypeEffect;
 
 
     public float WeaponDamage => weaponDamage;
     public float TimeBetweenAttack => timeBetweenAttack;
     public float AttackRange => attackRange;
+    public EffectType ProjectileTypeEffect => projectileTypeEffect;
 }

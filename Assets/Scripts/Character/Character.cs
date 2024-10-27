@@ -11,17 +11,21 @@ public abstract class Character : MonoBehaviour
 	public IMovementComponent MovementComponent { get; protected set; }
 	public IHealthComponent HealthComponent { get; protected set; }
 	public IAttackComponent AttackComponent { get; protected set; }
+	public IAnimationComponent AnimationComponent { get; protected set; }
 	
-	public abstract Character TargetTransform { get; }
+	public abstract Character Target { get; }
 
 
 	public virtual void Initialize()
 	{
-		MovementComponent = new CharacterControllerMovementComponent();
+		MovementComponent = new CharacterMovementComponent();
 		MovementComponent.Initialize(this);
 
 		HealthComponent = new CharacterHealthComponent();
 		HealthComponent.Initialize(this);
+
+		AnimationComponent = new CharacterAnimationComponent();
+		AnimationComponent.Initialize(this);
 	}
 	
 	protected abstract void Update();

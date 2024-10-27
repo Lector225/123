@@ -15,6 +15,6 @@ public class CameraService : MonoBehaviour
         Camera.main.transform.position =
             Vector3.Lerp(Camera.main.transform.position,
                 player.transform.position + offset,
-                lerpSpeed);
+                lerpSpeed * Time.deltaTime);
     }
 }

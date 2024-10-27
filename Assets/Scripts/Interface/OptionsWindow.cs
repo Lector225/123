@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using ZombieIo.AudioSystem;
 
 public class OptionsWindow : Window
 {
@@ -21,11 +22,14 @@ public class OptionsWindow : Window
         GameManager.Instance.WindowsService.ShowWindow<MainMenuWindow>(false);
     }
 
-    private void SoundsToggleHandler(bool arg0)
+    private void SoundsToggleHandler(bool isEnable)
     {
+        SimpleAudioSystemService.Instance.SetVolume(AudioSystemType.Sounds, isEnable);
+        SimpleAudioSystemService.Instance.SetVolume(AudioSystemType.UISounds, isEnable);
     }
 
-    private void MusicToggleHandler(bool arg0)
+    private void MusicToggleHandler(bool isEnable)
     {
+        SimpleAudioSystemService.Instance.SetVolume(AudioSystemType.Ambient, isEnable);
     }
 }

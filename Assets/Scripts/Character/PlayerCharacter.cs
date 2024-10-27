@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerCharacter : Character
 {
-    public override Character TargetTransform
+    public override Character Target
     {
         get
         {
@@ -47,15 +47,19 @@ public class PlayerCharacter : Character
         float z = Input.GetAxis("Vertical");
         Vector3 moveDirection = new Vector3(x, 0, z).normalized;
         MovementComponent.Move(moveDirection);
-
-        var target = TargetTransform;
-        if (target == null)
-            return;
-        Vector3 directionToTarget = target.transform.position - characterData.CharacterTransform.position;
-        directionToTarget.Normalize();
-        MovementComponent.Rotation(directionToTarget);
         
-        AttackComponent.OnUpdate();
-        AttackComponent.MakeAttack();
+        if (Target == null)
+        {
+            MovementComponent.Rotation(new Vector3(x, 0, z));
+        }
+        else
+        {
+            Vector3 directionToTarget = Target.transform.position - characterData.CharacterTransform.position;
+            directionToTarget.Normalize();
+            MovementComponent.Rotation(directionToTarget);
+        
+            AttackComponent.OnUpdate();
+            AttackComponent.MakeAttack();
+        }
     }
 }

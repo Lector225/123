@@ -15,3 +15,4 @@ MonoBehaviour:
   weaponDamage: 5
   timeBetweenAttack: 1.2
   attackRange: 8
+  projectileTypeEffect: 1

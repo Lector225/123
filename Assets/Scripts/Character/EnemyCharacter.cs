@@ -7,7 +7,7 @@ public class EnemyCharacter : Character
     [SerializeField] private float targetCheckingDistance = 0.8f;
 
 
-    public override Character TargetTransform =>
+    public override Character Target =>
         GameManager.Instance.CharacterFactory.PlayerCharacter;
 
     public override void Initialize()
@@ -24,10 +24,10 @@ public class EnemyCharacter : Character
         
         AttackComponent.OnUpdate();
         
-        if (TargetTransform == null || !TargetTransform.gameObject.activeSelf)
+        if (Target == null || !Target.gameObject.activeSelf)
             return;
         
-        Vector3 direction = TargetTransform.transform.position - characterData.CharacterTransform.position;
+        Vector3 direction = Target.transform.position - characterData.CharacterTransform.position;
         switch (_aiState)
         {
             case AiState.Idle:
@@ -38,7 +38,7 @@ public class EnemyCharacter : Character
                 direction = direction.normalized;
                 MovementComponent.Move(direction);
                 MovementComponent.Rotation(direction);
-                if (Vector3.Distance(TargetTransform.transform.position, characterData.CharacterTransform.position) <=
+                if (Vector3.Distance(Target.transform.position, characterData.CharacterTransform.position) <=
                     targetCheckingDistance)
                     _aiState = AiState.Attack;
                 return;
@@ -51,7 +51,7 @@ public class EnemyCharacter : Character
                 
                 AttackComponent.MakeAttack();
                 
-                if (Vector3.Distance(TargetTransform.transform.position, characterData.CharacterTransform.position) >
+                if (Vector3.Distance(Target.transform.position, characterData.CharacterTransform.position) >
                     targetCheckingDistance)
                     _aiState = AiState.MovementToTarget;
                 return;

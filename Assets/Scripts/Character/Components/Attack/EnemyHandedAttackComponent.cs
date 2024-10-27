@@ -16,19 +16,19 @@ public class EnemyHandedAttackComponent : IAttackComponent
 
     public void MakeAttack()
     {
-        if (thisCharacter.TargetTransform == null
-            || !thisCharacter.TargetTransform.HealthComponent.IsAlive
+        if (thisCharacter.Target == null
+            || !thisCharacter.Target.HealthComponent.IsAlive
             || _attackDuration > 0)
             return;
         
         float targetDistance = Vector3.Distance(
-            thisCharacter.TargetTransform.MovementComponent.Position,
+            thisCharacter.Target.MovementComponent.Position,
             _characterData.CharacterTransform.position);
         
         if (targetDistance > AttackRange)
             return;
         
-        thisCharacter.TargetTransform.HealthComponent.Health -= Damage;
+        thisCharacter.Target.HealthComponent.Health -= Damage;
         _attackDuration = ATTACK_DURATION_MAX;
     }
 

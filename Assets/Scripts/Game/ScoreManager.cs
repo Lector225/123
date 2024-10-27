@@ -1,8 +1,12 @@
+using System;
 using UnityEngine;
 
 public class ScoreManager
 {
     private const string SCORE_MAX = "save_score_max";
+    
+    
+    public event Action<int> OnScoreChanged;
     
     
     private int score;
@@ -20,7 +24,9 @@ public class ScoreManager
     
     public void CharacterDeathHandler(Character character)
     {
-        score++;
+        score += character.CharacterData.ScoreCost;
+        OnScoreChanged?.Invoke(score);
+        
         if (score <= scoreMax)
             return;
 
