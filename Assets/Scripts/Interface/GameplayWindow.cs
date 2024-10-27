@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,6 +44,7 @@ public class GameplayWindow : Window
             return;
         
         player.HealthComponent.OnCharacterHealthChange -= UpdateHealthVisual;
+        GameManager.Instance.ScoreManager.OnScoreUpdated -= UpdateScore;
     }
 
     private void UpdateHealthVisual(Character character)

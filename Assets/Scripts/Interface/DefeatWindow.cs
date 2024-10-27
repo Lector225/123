@@ -17,9 +17,14 @@ public class DefeatWindow : Window
 
     private void OnReturnToMainMenuButtonClicked()
     {
+        Hide(true);
+        GameManager.Instance.WindowsService.ShowWindow<MainMenuWindow>(false);
     }
 
     private void OnRestartButtonClicked()
     {
+        Hide(true);
+        GameManager.Instance.WindowsService.ShowWindow<GameplayWindow>(false);
+        GameManager.Instance.GameStart();
     }
 }

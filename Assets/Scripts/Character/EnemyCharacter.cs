@@ -19,7 +19,8 @@ public class EnemyCharacter : Character
     
     protected override void Update()
     {
-        if (!HealthComponent.IsAlive)
+        if (!HealthComponent.IsAlive
+            || !GameManager.Instance.IsGameActive)
             return;
         
         AttackComponent.OnUpdate();
