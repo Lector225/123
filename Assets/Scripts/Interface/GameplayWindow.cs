@@ -44,7 +44,6 @@ public class GameplayWindow : Window
             return;
         
         player.HealthComponent.OnCharacterHealthChange -= UpdateHealthVisual;
-        GameManager.Instance.ScoreManager.OnScoreUpdated -= UpdateScore;
     }
 
     private void UpdateHealthVisual(Character character)

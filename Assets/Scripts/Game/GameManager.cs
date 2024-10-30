@@ -31,7 +31,11 @@ public class GameManager : MonoBehaviour
     
     public ScoreManager ScoreManager { get; private set; }
 
-    public float GameTime => _gameTimeSec;
+    public float GameTime =>
+        _gameTimeSec;
+    
+    public bool IsGameActive =>
+        _isGameActive;
 
 
     private bool _isGameActive = false;
