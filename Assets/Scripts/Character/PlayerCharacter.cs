@@ -36,31 +36,17 @@ public class PlayerCharacter : Character
 
         AttackComponent = new WeaponAttackComponent();
         AttackComponent.Initialize(this);
+
+        ControlComponent = new PlayerControlComponent();
+        ControlComponent.Initialize(this);
     }
 
-    protected  override void Update()
+    protected override void Update()
     {
         if (!HealthComponent.IsAlive
             || !GameManager.Instance.IsGameActive)
             return;
-
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 moveDirection = new Vector3(x, 0, z).normalized;
-        MovementComponent.Move(moveDirection);
         
-        if (Target == null)
-        {
-            MovementComponent.Rotation(new Vector3(x, 0, z));
-        }
-        else
-        {
-            Vector3 directionToTarget = Target.transform.position - characterData.CharacterTransform.position;
-            directionToTarget.Normalize();
-            MovementComponent.Rotation(directionToTarget);
-        
-            AttackComponent.OnUpdate();
-            AttackComponent.MakeAttack();
-        }
+        ControlComponent.OnUpdate();
     }
 }

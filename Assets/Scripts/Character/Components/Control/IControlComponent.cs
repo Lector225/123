@@ -1,4 +1,4 @@
-﻿public interface IControlComponent
+﻿public interface IControlComponent : ICharacterComponent
 {
     void OnUpdate();
 }

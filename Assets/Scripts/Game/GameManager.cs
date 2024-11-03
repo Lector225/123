@@ -1,8 +1,8 @@
-using Data;
 using UnityEngine;
+using ZombieIo;
 using ZombieIo.AudioSystem;
 using ZombieIo.EffectsSystem;
-using Random = UnityEngine.Random;
+using ZombieIo.Input;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WindowsService windowsService;
     [SerializeField] private AudioSystemService audioSystemService;
     [SerializeField] private EffectsFactory effectsFactory;
-    
+
     [Space, SerializeField]
     private GameData _gameData;
 
@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
         effectsFactory;
     
     public ScoreManager ScoreManager { get; private set; }
+    
+    public SessionExperienceManager SessionExperienceManager { get; private set; }
+    
+    public IInputService InputService { get; private set; }
 
     public float GameTime =>
         _gameTimeSec;
@@ -120,6 +124,9 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         ScoreManager = new ScoreManager();
+        InputService = new NewInputService();
+        SessionExperienceManager = new SessionExperienceManager(_gameData);
+        
         windowsService.Initialize();
     }
 

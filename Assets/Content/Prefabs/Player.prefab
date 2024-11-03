@@ -57,7 +57,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.2
+  m_Radius: 0
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -79,6 +79,7 @@ MonoBehaviour:
   _characterController: {fileID: 4564887752154817035}
   animator: {fileID: 2653782874917571579}
   _starterWeaponData: {fileID: 11400000, guid: f267fd99fa0def44e89b657ebeacd73e, type: 2}
+  scoreCost: 0
   speed: 5
   baseHealth: 50
   baseDamage: 1
