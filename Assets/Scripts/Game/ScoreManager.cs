@@ -3,51 +3,65 @@ using UnityEngine;
 
 public class ScoreManager
 {
-    private const string SCORE_MAX = "save_score_max";
+    private const string SESSION_SCORE_MAX = "save_score_max";
+    private const string CURRENT_SCORE = "save_current_score";
 
 
     public event Action<int> OnScoreUpdated;
-    
-    
+    public event Action<int> OnSessionScoreUpdated;
     public event Action<int> OnScoreChanged;
     
     
-    private int score;
+    private int gameScore;
+    private int globalGameScore;
     private int scoreMax;
 
-    public int Score => score;
+    public int GameScore => gameScore;
+    public int GlobalGameScore
+    {
+        get => globalGameScore;
+        set
+        {
+            globalGameScore = value;
+            if (globalGameScore < 0)
+                globalGameScore = 0;
+            
+            PlayerPrefs.SetInt(CURRENT_SCORE, globalGameScore);
+        }
+    }
     public int ScoreMax => scoreMax;
     public bool IsNewScoreRecord { get; private set; }
 
 
     public ScoreManager()
     {
-        score = 0;
-        scoreMax = PlayerPrefs.GetInt(SCORE_MAX, 0);
+        gameScore = 0;
+        scoreMax = PlayerPrefs.GetInt(SESSION_SCORE_MAX, 0);
+        globalGameScore = PlayerPrefs.GetInt(CURRENT_SCORE, 0);
         IsNewScoreRecord = false;
     }
 
     public void StartGame()
     {
-        score = 0;
+        gameScore = 0;
         IsNewScoreRecord = false;
     }
     
     public void CharacterDeathHandler(Character character)
     {
-        score += character.CharacterData.ScoreCost;
-        OnScoreChanged?.Invoke(score);
+        gameScore += character.CharacterData.ScoreCost;
+        OnScoreChanged?.Invoke(gameScore);
         
-        if (score <= scoreMax)
+        if (gameScore <= scoreMax)
             return;
 
-        scoreMax = Score;
-        PlayerPrefs.SetInt(SCORE_MAX, scoreMax);
+        scoreMax = GameScore;
+        PlayerPrefs.SetInt(SESSION_SCORE_MAX, scoreMax);
         IsNewScoreRecord = true;
     }
-
-    public void EndGame()
+    
+    public void CompleteMatch()
     {
-        score = 0;
+        GlobalGameScore += gameScore;
     }
 }

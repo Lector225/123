@@ -12,6 +12,8 @@ public abstract class Character : MonoBehaviour
 	public IHealthComponent HealthComponent { get; protected set; }
 	public IAttackComponent AttackComponent { get; protected set; }
 	public IAnimationComponent AnimationComponent { get; protected set; }
+	public IControlComponent ControlComponent { get; protected set; }
+	
 	
 	public abstract Character Target { get; }
 

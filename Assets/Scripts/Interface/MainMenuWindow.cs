@@ -4,12 +4,14 @@ using UnityEngine.UI;
 public class MainMenuWindow : Window
 {
     [SerializeField] private Button startGameButton;
+    [SerializeField] private Button upgradeButton;
     [SerializeField] private Button optionsGameButton;
 
 
     public override void Initialize()
     {
         startGameButton.onClick.AddListener(StartGameHandler);
+        upgradeButton.onClick.AddListener(UpgradeHandler);
         optionsGameButton.onClick.AddListener(OpenOptionsHandler);
     }
 
@@ -31,6 +33,12 @@ public class MainMenuWindow : Window
     {
         GameManager.Instance.GameStart();
         GameManager.Instance.WindowsService.ShowWindow<GameplayWindow>(false);
+        Hide(false);
+    }
+
+    private void UpgradeHandler()
+    {
+        GameManager.Instance.WindowsService.ShowWindow<UpgradeCharacterWindow>(false);
         Hide(false);
     }
 

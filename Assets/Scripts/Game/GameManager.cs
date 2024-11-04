@@ -1,8 +1,12 @@
-using Data;
 using UnityEngine;
+using ZombieIo;
 using ZombieIo.AudioSystem;
+using ZombieIo.Character.GlobalSkills;
 using ZombieIo.EffectsSystem;
-using Random = UnityEngine.Random;
+using ZombieIo.Input;
+using ZombieIo.Items;
+
+
 
 public class GameManager : MonoBehaviour
 {
@@ -10,9 +14,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WindowsService windowsService;
     [SerializeField] private AudioSystemService audioSystemService;
     [SerializeField] private EffectsFactory effectsFactory;
-    
+    [SerializeField] private ItemsService itemsService;
+
     [Space, SerializeField]
     private GameData _gameData;
+    [Space, SerializeField]
+    private GlobalSkillsCollection _globalSkillsCollection;
+    
+    private bool _isGameActive = false;
+    private float _gameTimeSec = 0;
+    private float _spawnEnemyTimeSec = 0;
 
     
     public static GameManager Instance { get; private set; }
@@ -28,16 +39,26 @@ public class GameManager : MonoBehaviour
     
     public EffectsFactory EffectsFactory => 
         effectsFactory;
+
+    public ItemsService ItemsService =>
+        itemsService;
     
     public ScoreManager ScoreManager { get; private set; }
-
-    public float GameTime => _gameTimeSec;
-
-
-    private bool _isGameActive = false;
-    private float _gameTimeSec = 0;
-    private float _spawnEnemyTimeSec = 0;
     
+    public SessionExperienceManager SessionExperienceManager { get; private set; }
+    
+    public IInputService InputService { get; private set; }
+    public GlobalSkillsCollection GlobalSkillsCollection => _globalSkillsCollection;
+
+    public float GameTime =>
+        _gameTimeSec;
+
+    public bool IsGameActive
+    {
+        get => _isGameActive;
+        set => _isGameActive = value;
+    }
+
 
     public void Awake()
     {
@@ -61,6 +82,9 @@ public class GameManager : MonoBehaviour
         player.Initialize();
         player.HealthComponent.OnCharacterDeath += CharacterDeathHandler;
         player.gameObject.SetActive(true);
+
+        SessionExperienceManager.DropProgress();
+        ScoreManager.StartGame();
         
         _gameTimeSec = 0;
         _isGameActive = true;
@@ -73,14 +97,17 @@ public class GameManager : MonoBehaviour
         {
             case CharacterType.DefaultPlayer:
                 Debug.LogError("GameOver!");
-                Debug.LogError("Score = " + ScoreManager.Score);
+                Debug.LogError("Score = " + ScoreManager.GameScore);
                 Debug.LogError("ScoreMax = " + ScoreManager.ScoreMax);
                 _isGameActive = false;
                 break;
             
             case CharacterType.DefaultEnemy:
+                var item = ItemsService.GetItem(ItemsService.ItemClass.SmallExperience, character.transform.position);
+                item.SetDistanceForPick(5f);
+                
                 ScoreManager.CharacterDeathHandler(character);
-                Debug.LogError("Score = " + ScoreManager.Score);
+                Debug.LogError("Score = " + ScoreManager.GameScore);
                 break;
         }
         
@@ -116,6 +143,8 @@ public class GameManager : MonoBehaviour
     private void Initialize()
     {
         ScoreManager = new ScoreManager();
+        InputService = new NewInputService();
+        SessionExperienceManager = new SessionExperienceManager(_gameData);
         windowsService.Initialize();
     }
 
