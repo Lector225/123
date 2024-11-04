@@ -4,5 +4,6 @@ namespace ZombieIo.EffectsSystem
 	{
 		None = 0,
 		PistolProjectile = 1,
+		DamageEffect = 2,
 	}
 }
