@@ -6,8 +6,6 @@ using ZombieIo.EffectsSystem;
 using ZombieIo.Input;
 using ZombieIo.Items;
 
-
-
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private CharacterFactory characterFactory;
@@ -99,6 +97,7 @@ public class GameManager : MonoBehaviour
                 Debug.LogError("GameOver!");
                 Debug.LogError("Score = " + ScoreManager.GameScore);
                 Debug.LogError("ScoreMax = " + ScoreManager.ScoreMax);
+                ScoreManager.CompleteMatch();
                 _isGameActive = false;
                 break;
             
@@ -165,6 +164,7 @@ public class GameManager : MonoBehaviour
         if (_gameTimeSec >= _gameData.GameTimeSecondsMax)
         {
             Debug.Log("Game Over! Time's up!");
+            ScoreManager.CompleteMatch();
             _isGameActive = false;
         }
     }

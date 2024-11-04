@@ -30,7 +30,6 @@ public class PlayerControlComponent : IControlComponent
         
 		if (character.Target == null || !character.Target.HealthComponent.IsAlive)
 		{
-			//MovementComponent.Rotation(new Vector3(x, 0, z));
 			MovementComponent.Rotation(moveDirection);
 		}
 		else

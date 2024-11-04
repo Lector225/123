@@ -25,7 +25,9 @@ public class GlobalCharacterUpgradePopupController : MonoBehaviour
 		this.skillName.text = skillData.NameKey;
 		this.skillDescription.text = skillData.DescriptionKey;
 		costText.text = skillData.SkillCosts[skillLevel].ToString();
-	}
+
+		buyButton.onClick.AddListener(OnClickBuyButton);
+    }
 	
 	public void OnClickBuyButton()
 	{

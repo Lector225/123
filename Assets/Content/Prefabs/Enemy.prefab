@@ -78,6 +78,7 @@ MonoBehaviour:
   _characterController: {fileID: 8873309474331393159}
   animator: {fileID: 5064523078337834858}
   _starterWeaponData: {fileID: 0}
+  scoreCost: 10
   speed: 2
   baseHealth: 10
   baseDamage: 1
@@ -95,7 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterType: 1
   characterData: {fileID: 3497359469364547560}
-  _aiState: 2
   targetCheckingDistance: 2.5
 --- !u!136 &7259053505902817484
 CapsuleCollider:
