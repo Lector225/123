@@ -16,9 +16,9 @@ namespace ZombieIo.Items
         public ItemsService.ItemClass ItemClass => itemClass;
         
         
-        public void Initialize(Vector3 position)
+        public virtual void Initialize(Vector3 position)
         {
-            
+            playerTarget = GameManager.Instance.CharacterFactory.PlayerCharacter.transform;
             isMovementToPlayer = false;
             transform.position = position;
             gameObject.SetActive(true);
@@ -37,6 +37,8 @@ namespace ZombieIo.Items
 
         public void OnUpdate()
         {
+            var distance = Vector3.Distance(playerTarget.position, transform.position);
+            
             if (isMovementToPlayer)
             {
                 if (currentFlySpeed < maxFlySpeed)
@@ -48,10 +50,14 @@ namespace ZombieIo.Items
 
                 Vector3 direction = (playerTarget.position - transform.position).normalized;
                 transform.position += direction * currentFlySpeed * Time.deltaTime;
+                if (distance <= 0.2f)
+                    FlyToTargetComplete();
             }
             else
             {
-                var distance = Vector3.Distance(playerTarget.position, transform.position);
+                transform.rotation *= Quaternion.Euler(0.0f, 1 * Time.deltaTime, 0.0f);
+                if (distance <= distanceForPickup)
+                    ActivateFlyingToTarget();
             }
         }
         

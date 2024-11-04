@@ -19,6 +19,7 @@ public class DefaultFighterAiControlComponent : IControlComponent
 	public void Initialize(Character character)
 	{
 		this.character = character;
+		aiState = AiState.MovementToTarget;
 	}
 
 	public void OnUpdate()

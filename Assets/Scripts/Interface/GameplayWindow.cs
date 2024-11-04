@@ -27,8 +27,13 @@ public class GameplayWindow : Window
         UpdateHealthVisual(player);
         player.HealthComponent.OnCharacterHealthChange += UpdateHealthVisual;
 
-        ScoreChangeHandler(GameManager.Instance.ScoreManager.Score);
+        ScoreChangeHandler(GameManager.Instance.ScoreManager.GameScore);
         GameManager.Instance.ScoreManager.OnScoreChanged += ScoreChangeHandler;
+
+        UpdateExperience(GameManager.Instance.SessionExperienceManager.Experience,
+            GameManager.Instance.SessionExperienceManager.ExperienceMax);
+
+        GameManager.Instance.SessionExperienceManager.OnExperienceUp += UpdateExperience;
         
         UpdateTimer();
     }
@@ -38,6 +43,7 @@ public class GameplayWindow : Window
         base.CloseStart();
         
         GameManager.Instance.ScoreManager.OnScoreChanged -= ScoreChangeHandler;
+        GameManager.Instance.SessionExperienceManager.OnExperienceUp -= UpdateExperience;
         
         var player = GameManager.Instance.CharacterFactory.PlayerCharacter;
         if (player == null)
@@ -72,6 +78,12 @@ public class GameplayWindow : Window
         {
             return (value < 10) ? "0" + value : value.ToString();
         }
+    }
+    
+    private void UpdateExperience(int value, int maxValue)
+    {
+        experienceSlider.maxValue = maxValue;
+        experienceSlider.value = value;
     }
     
     private void Update()

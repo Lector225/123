@@ -26,7 +26,7 @@ namespace ZombieIo.Items
             Item newItem = null;
             if (backupItems.ContainsKey(itemClass))
             {
-                if (backupItems.Count > 0)
+                if (backupItems[itemClass].Count > 0)
                     newItem = backupItems[itemClass].Dequeue();
             }
             else
@@ -36,7 +36,7 @@ namespace ZombieIo.Items
 
             if (newItem == null)
             {
-                newItem = Instantiate(Resources.Load<Item>(PATH_TO_ITEMS + itemClass));
+                newItem = Instantiate(Resources.Load<GameObject>(PATH_TO_ITEMS + itemClass).GetComponent<Item>());
             }
             
             if (!activeItems.ContainsKey(itemClass))
@@ -51,6 +51,7 @@ namespace ZombieIo.Items
         {
             activeItems[item.ItemClass].Remove(item);
             backupItems[item.ItemClass].Enqueue(item);
+            item.gameObject.SetActive(false);
         }
         
         private void Update()
