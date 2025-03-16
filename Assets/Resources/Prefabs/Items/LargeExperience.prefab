@@ -4923,4 +4923,4 @@ MonoBehaviour:
   itemClass: 3
   maxFlySpeed: 10
   addedExperience: 80
-  fireParticle: {fileID: 1949119230396556904}
+  fireParticle: {fileID: 0}

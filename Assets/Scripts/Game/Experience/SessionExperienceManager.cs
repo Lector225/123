@@ -2,8 +2,11 @@ using System;
 
 namespace ZombieIo
 {
+
     public class SessionExperienceManager
     {
+
+
         public event Action<int> OnLevelUp;
         public event Action<int, int> OnExperienceUp;
         
@@ -11,8 +14,11 @@ namespace ZombieIo
         private ExperienceFormula experienceFormula;
         private int currentExperience;
 
+
+
         public int Experience
         {
+
             get => currentExperience;
             set
             {
@@ -23,6 +29,8 @@ namespace ZombieIo
                     Level++;
                     ExperienceMax = experienceFormula.GetExperienceByLevel(Level);
                     OnLevelUp?.Invoke(Level);
+
+
                 }
                 
                 OnExperienceUp?.Invoke(currentExperience, ExperienceMax);

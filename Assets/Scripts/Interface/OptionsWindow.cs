@@ -19,7 +19,9 @@ public class OptionsWindow : Window
     private void CloseOptionsHandler()
     {
         Hide(true);
+        GameManager.Instance.WindowsService.ShowWindow<GameplayWindow>(false);
         GameManager.Instance.WindowsService.ShowWindow<MainMenuWindow>(false);
+
     }
 
     private void SoundsToggleHandler(bool isEnable)

@@ -8,9 +8,10 @@ public class LevelUpWindow : Window
 	private Button continueButton;
 	[SerializeField]
 	private TMP_Text levelText;
-	
-	
-	public override void Initialize()
+    [SerializeField] private UpgradesManager upgradesManager;
+
+
+    public override void Initialize()
 	{
 		continueButton.onClick.AddListener(ContinueButtonClickHandler);
 		GameManager.Instance.SessionExperienceManager.OnLevelUp += UpdateLevelHandler;
@@ -29,7 +30,8 @@ public class LevelUpWindow : Window
 		Hide(true);
 		GameManager.Instance.WindowsService.ShowWindow<GameplayWindow>(false);
 		GameManager.Instance.IsGameActive = true;
-	}
+        upgradesManager.Suggest();
+    }
 	
 	private void OnDestroy()
 	{
