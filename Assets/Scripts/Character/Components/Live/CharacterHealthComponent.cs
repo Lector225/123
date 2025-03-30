@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ZombieIo.EffectsSystem;
 
 public class CharacterHealthComponent : IHealthComponent
 {
@@ -17,6 +18,13 @@ public class CharacterHealthComponent : IHealthComponent
         get => _health;
         set
         {
+            if (_health > value)
+            {
+                ParticleSystem particle = GameManager.Instance.EffectsFactory.GetParticleSystem(EffectType.DamageEffect);
+                particle.transform.position = character.transform.position + Vector3.up;
+                particle.Play();
+            }
+
             _health = Mathf.Clamp(value, 0, _healthMax);
             OnCharacterHealthChange?.Invoke(character);
 

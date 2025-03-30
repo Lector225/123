@@ -7,8 +7,8 @@ namespace ZombieIo.EffectsSystem
     [CreateAssetMenu(menuName = "Effects/Effects Library")]
     public class EffectsLibrary : ScriptableObject
     {
-        [SerializeField] public EffectData[] effectsData;
-        [SerializeField] public ProjectileData[] particleDatas;
+        [SerializeField] private EffectData[] effectsData;
+        [SerializeField] private ProjectileData[] particleDatas;
 
 
         public EffectData[] EffectDatas => effectsData;

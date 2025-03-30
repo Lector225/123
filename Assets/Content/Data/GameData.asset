@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482d09a7489d4cec81a3cb1158b751d5, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  gameTimeMinutesMax: 1
-  baseExperience: 1
-  grownRate: 1
+  gameTimeMinutesMax: 5
+  baseExperience: 20
+  grownRate: 10
   spawnEnemyTimeSec: 2
-  minEnemySpawnDistance: 5
-  maxEnemySpawnDistance: 15
+  minEnemySpawnDistance: 10
+  maxEnemySpawnDistance: 12

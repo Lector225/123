@@ -10,8 +10,10 @@ namespace ZombieIo.EffectsSystem
 		
 		private Dictionary<EffectType, List<ProjectileController>> projectiles = new Dictionary<EffectType, List<ProjectileController>>();
 
+        private Dictionary<EffectType, List<ParticleSystem>> effects = new Dictionary<EffectType, List<ParticleSystem>>();
 
-		public ProjectileController GetProjectile(EffectType effectType)
+
+        public ProjectileController GetProjectile(EffectType effectType)
 		{
 			if (!projectiles.ContainsKey(effectType))
 			{
@@ -32,8 +34,46 @@ namespace ZombieIo.EffectsSystem
 				? CreateProjectile(effectType)
 				: projectile;
 		}
-		
-		private ProjectileController CreateProjectile(EffectType effectType)
+
+        public ParticleSystem GetParticleSystem(EffectType effectType)
+        {
+            if (!effects.ContainsKey(effectType))
+            {
+                effects.Add(effectType, new List<ParticleSystem>());
+                return CreateParticle(effectType);
+            }
+
+            ParticleSystem particle = null;
+            foreach (ParticleSystem effect in effects[effectType])
+            {
+                if (effect.isPlaying)
+                    continue;
+
+                particle = effect;
+            }
+
+            return particle == null
+                ? CreateParticle(effectType)
+                : particle;
+        }
+        private ParticleSystem CreateParticle(EffectType effectType)
+        {
+            ParticleSystem particle = null;
+
+            foreach (var effectData in effectsLibrary.EffectDatas)
+            {
+                if (effectData.EffectType != effectType)
+                    continue;
+
+                particle = GameObject.Instantiate<ParticleSystem>(effectData.EffectPrefab, this.gameObject.transform);
+				effects[effectType].Add(particle);
+				return particle;
+            }
+
+            Debug.LogError($"Unknown effect type {effectType}");
+            return null;
+        }
+        private ProjectileController CreateProjectile(EffectType effectType)
 		{
 			ProjectileController projectile = null;
 
