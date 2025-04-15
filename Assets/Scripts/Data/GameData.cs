@@ -5,7 +5,7 @@ namespace ZombieIo
     [CreateAssetMenu(fileName = "GameData", menuName = "ZombieIO/GameData")]
     public class GameData : ScriptableObject
     {
-        [SerializeField] private float gameTimeMinutesMax = 5;
+        [SerializeField] private float gameTimeMinutesMax = 2;
 
         [Space(10), Header("Experience progress")]
         [SerializeField]
@@ -17,7 +17,7 @@ namespace ZombieIo
         [SerializeField]
         private float spawnEnemyTimeSec = 2;
         [SerializeField]
-        private float minEnemySpawnDistance = 5;
+        private float minEnemySpawnDistance = 8;
         [SerializeField]
         private float maxEnemySpawnDistance = 15;
         

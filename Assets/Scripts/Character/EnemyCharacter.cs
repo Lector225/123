@@ -3,7 +3,7 @@ using Vector3 = UnityEngine.Vector3;
 
 public class EnemyCharacter : Character
 {
-    [SerializeField] private float targetCheckingDistance = 0.5f;
+    [SerializeField] private float targetCheckingDistance = 1.5f;
 
 
     public override Character Target =>

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fb746fc612de54a90c81c7fc87d68a, type: 3}
   m_Name: WeaponPistol
   m_EditorClassIdentifier: 
-  weaponDamage: 5
-  timeBetweenAttack: 1.2
+  weaponDamage: 2
+  timeBetweenAttack: 0.5
   attackRange: 8
   projectileTypeEffect: 1

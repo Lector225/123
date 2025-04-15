@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DefaultFighterAiControlComponent : IControlComponent
 {
-	private const float TARGET_DISTANCE = 0.5f;
+	private const float TARGET_DISTANCE = 1.5f;
 	
 	
 	private Character character;

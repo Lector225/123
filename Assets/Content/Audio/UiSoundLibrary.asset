@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 433979a1e932b9946bba6553c5f84b2e, type: 3}
   m_Name: UiSoundLibrary
   m_EditorClassIdentifier: 
-  _sounds: []
+  _sounds:
+  - audioClip: {fileID: 8300000, guid: 62b9cbfa1f32715459886d5e04b2e6c6, type: 3}
+    _uiSoundType: 1

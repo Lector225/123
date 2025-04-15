@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3233a70e459cab94abd10dd9c2819902, type: 3}
   m_Name: AmbientLibrary
   m_EditorClassIdentifier: 
-  _ambients: []
+  _ambients:
+  - audioClip: {fileID: 8300000, guid: 9e0a987c2b5924140b068e9b81933787, type: 3}
+    _ambientType: 1

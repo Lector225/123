@@ -50,4 +50,9 @@ public class CharacterHealthComponent : IHealthComponent
         _healthMax = character.CharacterData.baseHealth;
         _health = character.CharacterData.baseHealth;
     }
+    public void IncreaseMaxHealth(int amount)
+    {
+        _healthMax += amount;  // Увеличиваем максимальное здоровье
+        OnCharacterHealthChange?.Invoke(character);  // Вызываем событие, если нужно обновить UI
+    }
 }

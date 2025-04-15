@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class SpeedUp : MonoBehaviour
 {
-    [SerializeField]
-    private float speed;
+    
+    private float speed=+5;
 
 
 
