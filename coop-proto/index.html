@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Base Defense Coop</title>
+<style>
+  :root { --bg: #12161f; --panel: #1c2230; --text: #e8eaf0; --muted: #8a93a6; --accent: #4fc3f7; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: sans-serif; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  .overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #000a; }
+  .overlay[hidden] { display: none; }
+  .panel { background: var(--panel); padding: 24px 28px; border-radius: 10px; min-width: 280px; display: flex; flex-direction: column; gap: 10px; text-align: center; }
+  .panel h1 { margin: 0 0 8px; font-size: 22px; }
+  .panel p { margin: 0; color: var(--muted); font-size: 14px; }
+  button, input { font: inherit; padding: 9px 12px; border-radius: 6px; border: 1px solid #333c50; background: #262e40; color: var(--text); }
+  button { cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { opacity: 0.4; cursor: default; }
+  .row { display: flex; gap: 8px; }
+  .row input { flex: 1; min-width: 0; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+
+<div id="menu" class="overlay">
+  <div class="panel">
+    <h1>Base Defense Coop</h1>
+    <button id="btn-solo">Играть одному</button>
+    <button id="btn-host" disabled title="Этап 3">Создать игру</button>
+    <div class="row">
+      <input id="join-code" placeholder="Код комнаты" maxlength="6" disabled>
+      <button id="btn-join" disabled title="Этап 3">Подключиться</button>
+    </div>
+    <p>WASD — движение, стрельба автоматическая</p>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="sim.js"></script>
+<script src="render.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
